@@ -15,13 +15,13 @@ import os
 app = FastAPI(title="Attendance System API", version="1.0.0")
 
 # CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins= os.getenv("CORS_ORIGINS").split(","),  # Admin and Employee dashboards
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins= os.getenv("CORS_ORIGINS").split(","),  # Admin and Employee dashboards
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 @app.get("/")
 def responder():
@@ -455,3 +455,6 @@ async def get_statistics(current_user: str = Depends(verify_admin_token)):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("index:app", host="0.0.0.0", port=8000, reload=True)
+
+def handler(request):
+    return app(request)
