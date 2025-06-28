@@ -11,17 +11,20 @@ import secrets
 import string
 from calendar import monthrange
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI(title="Attendance System API", version="1.0.0")
 
 # CORS middleware
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins= os.getenv("CORS_ORIGINS").split(","),  # Admin and Employee dashboards
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins= os.getenv("CORS_ORIGINS").split(","),  # Admin and Employee dashboards
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def responder():
@@ -31,7 +34,7 @@ def responder():
 
 # MongoDB connection
 client = pymongo.MongoClient(os.getenv("MONGO_URI"))
-db = client[os.getenv("DB_NAME")]
+db = client[str(os.getenv("DB_NAME"))]
 employees_collection = db["employees"]
 attendance_collection = db["attendance"]
 admins_collection = db["admins"]
